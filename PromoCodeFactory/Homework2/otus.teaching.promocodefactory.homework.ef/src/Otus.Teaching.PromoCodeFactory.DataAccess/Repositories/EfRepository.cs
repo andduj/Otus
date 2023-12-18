@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories;
 using Otus.Teaching.PromoCodeFactory.Core.Domain;
 
@@ -9,16 +10,16 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
     public class EfRepository<T> : IRepository<T>
         where T : BaseEntity
     {
-        protected ICollection<T> Data { get; set; }
+        private DataContext _dataContext;
 
-        public EfRepository(IEnumerable<T> data)
+        public EfRepository(DataContext dataContext)
         {
-            Data = new List<T>(data);
+            _dataContext = dataContext;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dataContext.Set<T>().ToListAsync();
         }
 
         public Task<T> GetByIdAsync(Guid id)

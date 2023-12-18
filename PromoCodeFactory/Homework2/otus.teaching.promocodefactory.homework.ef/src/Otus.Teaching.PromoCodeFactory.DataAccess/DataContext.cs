@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Otus.Teaching.PromoCodeFactory.DataAccess
 {
@@ -20,13 +15,25 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
         public DbSet<Preference> Preferences { get; set; }
 
         public DbSet<PromoCode> PromoCode { get; set; }
+        public DataContext() {  }
 
         public DataContext(DbContextOptions<DataContext> options) 
             : base(options) {  }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CustomerPreference>()
+               .HasKey(item => new { item.CustomerId, item.PreferenceId });
 
+            modelBuilder.Entity<CustomerPreference>()
+                .HasOne(item => item.Customer)
+                .WithMany(item => item.Preferences)
+                .HasForeignKey(item => item.CustomerId);
+
+            modelBuilder.Entity<CustomerPreference>()
+                .HasOne(item => item.Preference)
+                .WithMany()
+                .HasForeignKey(item => item.PreferenceId);
         }
     }
 }
