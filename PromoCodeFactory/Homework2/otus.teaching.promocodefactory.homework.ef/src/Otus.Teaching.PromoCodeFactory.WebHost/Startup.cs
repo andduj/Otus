@@ -28,10 +28,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
             services.AddScoped<IDbFactory, DbFactory>();
             services.AddDbContext<DataContext>(options =>            
                 options.UseSqlite(Configuration.GetConnectionString("SqlLiteConnection"))
-            );
-
-            
-
+            ); 
 
             services.AddOpenApiDocument(options =>
             {
