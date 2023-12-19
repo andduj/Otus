@@ -26,9 +26,12 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbFactory, DbFactory>();
-            services.AddDbContext<DataContext>(options =>
+            services.AddDbContext<DataContext>(options =>            
                 options.UseSqlite(Configuration.GetConnectionString("SqlLiteConnection"))
             );
+
+            
+
 
             services.AddOpenApiDocument(options =>
             {
@@ -37,7 +40,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbFactory factory)
         {
             if (env.IsDevelopment())
             {
@@ -62,6 +65,8 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
             {
                 endpoints.MapControllers();
             });
+
+            factory.Create();
         }
     }
 }
