@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
+using System;
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost.Models
 {
@@ -11,5 +12,13 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Models
         public string LastName { get; set; }
 
         public string Email { get; set; }
+
+        public CustomerShortResponse(Customer customer)
+        {
+            Id = customer.Id;
+            FirstName = customer.FirstName;
+            LastName = customer.LastName;
+            Email = customer.Email;
+        }
     }
 }

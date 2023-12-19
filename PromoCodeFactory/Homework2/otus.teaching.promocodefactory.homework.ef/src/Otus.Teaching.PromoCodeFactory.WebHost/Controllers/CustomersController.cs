@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories;
@@ -17,27 +17,34 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         : ControllerBase
     {
         private readonly IRepository<Customer> _customers;
+        private readonly IRepository<Preference> _preferences;
 
-        public CustomersController(IRepository<Customer> customers)
+        public CustomersController(IRepository<Customer> customers, IRepository<Preference> preferences)
         {
             _customers = customers;
+            _preferences = preferences;
         }
 
         [HttpGet]
         public async Task<ActionResult<CustomerShortResponse>> GetCustomersAsync()
         {
-            //TODO: Добавить получение списка клиентов
             var customers = await _customers.GetAllAsync();
 
+            var response = customers.Select(customer => new CustomerShortResponse(customer));
 
-            return Ok(customers);
+            return Ok(response);
         }
         
         [HttpGet("{id}")]
-        public Task<ActionResult<CustomerResponse>> GetCustomerAsync(Guid id)
+        public async Task<ActionResult<CustomerResponse>> GetCustomerAsync(Guid id)
         {
-            //TODO: Добавить получение клиента вместе с выданными ему промомкодами
-            throw new NotImplementedException();
+            var customer = await _customers.GetByIdAsync(id);
+            if(customer == default)
+            {
+                return NotFound();
+            }
+
+            return Ok(new CustomerResponse(customer));
         }
         
         [HttpPost]

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost.Models
 {
@@ -17,5 +19,23 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Models
         public List<PreferenceResponse> Preferences { get; set; }
 
         public List<PromoCodeShortResponse> PromoCodes { get; set; }
+
+        public CustomerResponse()
+        {
+
+        }
+
+        public CustomerResponse(Customer customer) 
+        {
+            Id = customer.Id;
+            FirstName = customer.FirstName;
+            LastName = customer.LastName;
+            Email = customer.Email;            
+            Preferences = customer.Preferences.Select(x => new PreferenceResponse 
+            { 
+                Id = x.PreferenceId, 
+                Name = x.Preference.Name 
+            }).ToList();
+        }
     }
 }

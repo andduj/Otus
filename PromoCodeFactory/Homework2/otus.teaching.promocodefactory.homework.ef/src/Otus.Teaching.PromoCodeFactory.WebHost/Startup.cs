@@ -26,9 +26,11 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbFactory, DbFactory>();
-            services.AddDbContext<DataContext>(options =>            
-                options.UseSqlite(Configuration.GetConnectionString("SqlLiteConnection"))
-            ); 
+
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("SqlLiteConnection"));
+            });
 
             services.AddOpenApiDocument(options =>
             {

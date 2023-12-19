@@ -10,7 +10,7 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
     public class EfRepository<T> : IRepository<T>
         where T : BaseEntity
     {
-        private DataContext _dataContext;
+        private readonly DataContext _dataContext;
 
         public EfRepository(DataContext dataContext)
         {
@@ -22,9 +22,9 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
             return await _dataContext.Set<T>().ToListAsync();
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dataContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

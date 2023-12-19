@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
+using System;
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost.Models
 {

@@ -22,18 +22,29 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CustomerPreference>()
-               .HasKey(item => new { item.CustomerId, item.PreferenceId });
+            //modelBuilder.Entity<CustomerPreference>()
+            //   .HasKey(item => new { item.CustomerId, item.PreferenceId });
+
+            //modelBuilder.Entity<CustomerPreference>()
+            //    .HasOne(item => item.Customer)
+            //    .WithMany(item => item.Preferences)
+            //    .HasForeignKey(item => item.CustomerId);
+
+            //modelBuilder.Entity<CustomerPreference>()
+            //    .HasOne(item => item.Preference)
+            //    .WithMany()
+            //    .HasForeignKey(item => item.PreferenceId);
 
             modelBuilder.Entity<CustomerPreference>()
-                .HasOne(item => item.Customer)
-                .WithMany(item => item.Preferences)
-                .HasForeignKey(item => item.CustomerId);
-
+                .HasKey(bc => new { bc.CustomerId, bc.PreferenceId });
             modelBuilder.Entity<CustomerPreference>()
-                .HasOne(item => item.Preference)
+                .HasOne(bc => bc.Customer)
+                .WithMany(b => b.Preferences)
+                .HasForeignKey(bc => bc.CustomerId);
+            modelBuilder.Entity<CustomerPreference>()
+                .HasOne(bc => bc.Preference)
                 .WithMany()
-                .HasForeignKey(item => item.PreferenceId);
+                .HasForeignKey(bc => bc.PreferenceId);
         }
     }
 }
