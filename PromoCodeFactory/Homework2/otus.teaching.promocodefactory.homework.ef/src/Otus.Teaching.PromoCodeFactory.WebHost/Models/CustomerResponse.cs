@@ -15,7 +15,6 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Models
 
         public string Email { get; set; }
 
-        //TODO: Добавить список предпочтений
         public List<PreferenceResponse> Preferences { get; set; }
 
         public List<PromoCodeShortResponse> PromoCodes { get; set; }
