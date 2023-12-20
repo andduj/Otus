@@ -22,29 +22,59 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<CustomerPreference>()
-            //   .HasKey(item => new { item.CustomerId, item.PreferenceId });
-
-            //modelBuilder.Entity<CustomerPreference>()
-            //    .HasOne(item => item.Customer)
-            //    .WithMany(item => item.Preferences)
-            //    .HasForeignKey(item => item.CustomerId);
-
-            //modelBuilder.Entity<CustomerPreference>()
-            //    .HasOne(item => item.Preference)
-            //    .WithMany()
-            //    .HasForeignKey(item => item.PreferenceId);
+            modelBuilder.Entity<CustomerPreference>()
+               .HasKey(item => new { item.CustomerId, item.PreferenceId });
 
             modelBuilder.Entity<CustomerPreference>()
-                .HasKey(bc => new { bc.CustomerId, bc.PreferenceId });
+                .HasOne(item => item.Customer)
+                .WithMany(item => item.Preferences)
+                .HasForeignKey(item => item.CustomerId);
+
             modelBuilder.Entity<CustomerPreference>()
-                .HasOne(bc => bc.Customer)
-                .WithMany(b => b.Preferences)
-                .HasForeignKey(bc => bc.CustomerId);
-            modelBuilder.Entity<CustomerPreference>()
-                .HasOne(bc => bc.Preference)
+                .HasOne(item => item.Preference)
                 .WithMany()
-                .HasForeignKey(bc => bc.PreferenceId);
+                .HasForeignKey(item => item.PreferenceId);           
+
+            modelBuilder.Entity<Customer>()
+                .Property(item => item.FirstName)
+                .HasMaxLength(Constants.MaxLength);
+            modelBuilder.Entity<Customer>()
+                .Property(item => item.LastName)
+                .HasMaxLength(Constants.MaxLength);
+            modelBuilder.Entity<Customer>()
+                .Property(item => item.Email)
+                .HasMaxLength(Constants.MaxLength);
+
+            modelBuilder.Entity<Employee>()
+                .Property(item => item.FirstName)
+                .HasMaxLength(Constants.MaxLength);
+            modelBuilder.Entity<Employee>()
+                .Property(item => item.LastName)
+                .HasMaxLength(Constants.MaxLength);
+            modelBuilder.Entity<Employee>()
+                .Property(item => item.Email)
+                .HasMaxLength(Constants.MaxLength);
+
+            modelBuilder.Entity<Role>()
+                .Property(item => item.Name)
+                .HasMaxLength(Constants.MaxLength);
+            modelBuilder.Entity<Role>()
+                .Property(item => item.Description)
+                .HasMaxLength(Constants.MaxLength);
+
+            modelBuilder.Entity<Preference>()
+                .Property(item => item.Name)
+                .HasMaxLength(Constants.MaxLength);
+
+            modelBuilder.Entity<PromoCode>()
+                .Property(item => item.PartnerName)
+                .HasMaxLength(Constants.MaxLength);
+            modelBuilder.Entity<PromoCode>()
+                .Property(item => item.Code)
+                .HasMaxLength(Constants.MaxLength);
+            modelBuilder.Entity<PromoCode>()
+                .Property(item => item.ServiceInfo)
+                .HasMaxLength(Constants.MaxLength);
         }
     }
 }

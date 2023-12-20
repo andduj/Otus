@@ -32,9 +32,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         public async Task<ActionResult<CustomerShortResponse>> GetCustomersAsync()
         {
             var customers = await _customers.GetAllAsync();
-
             var response = customers.Select(customer => new CustomerShortResponse(customer));
-
             return Ok(response);
         }
 
@@ -49,7 +47,6 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
             {
                 return NotFound();
             }
-
             return Ok(new CustomerResponse(customer));
         }
 
@@ -101,7 +98,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
                     .Select(p => new CustomerPreference { CustomerId = customer.Id, PreferenceId = p.Id, Customer = customer, Preference = p })
                     .ToList();
 
-            await _customers.UpdateAsync(null);
+            await _customers.UpdateAsync(customer);
             return Ok();
         }
 
@@ -111,7 +108,6 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(Guid id)
         {
-            //TODO: Удаление клиента вместе с выданными ему промокодами
             var customer = await _customers.GetByIdAsync(id);
             if (customer == default)
             {

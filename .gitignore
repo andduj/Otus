@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/PromoCodeFactory/Homework2/otus.teaching.promocodefactory.homework.ef/src/Otus.Teaching.PromoCodeFactory.WebHost/DataBase.sqlite
+/PromoCodeFactory/Homework2/otus.teaching.promocodefactory.homework.ef/src/Otus.Teaching.PromoCodeFactory.WebHost/DataBase.sqlite-shm
+/PromoCodeFactory/Homework2/otus.teaching.promocodefactory.homework.ef/src/Otus.Teaching.PromoCodeFactory.WebHost/DataBase.sqlite-wal
