@@ -3,10 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories;
-using Otus.Teaching.PromoCodeFactory.Core.Domain.Administration;
 using Otus.Teaching.PromoCodeFactory.Core.Domain.PromoCodeManagement;
 using Otus.Teaching.PromoCodeFactory.WebHost.Models;
-using SQLitePCL;
 
 namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 {
@@ -56,7 +54,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         }
 
         /// <summary>
-        /// Создание клиента
+        /// Добавление клиента
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<CustomerResponse>> CreateCustomerAsync(CreateOrEditCustomerRequest request)
@@ -70,7 +68,6 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
             };
 
             var preferences = await _preferences.GetAllAsync();
-
             customer.Preferences = preferences
                 .Where(p => request.PreferenceIds.Contains(p.Id))
                 .Select(p => new CustomerPreference { CustomerId = customer.Id, PreferenceId = p.Id, Customer = customer, Preference = p })
@@ -80,14 +77,37 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
 
             return Ok(new CustomerResponse(customer));
         }
-        
+
+        /// <summary>
+        /// Редактирование клиента
+        /// </summary>
         [HttpPut("{id}")]
-        public Task<IActionResult> EditCustomersAsync(Guid id, CreateOrEditCustomerRequest request)
+        public async Task<IActionResult> EditCustomersAsync(Guid id, CreateOrEditCustomerRequest request)
         {
-            //TODO: Обновить данные клиента вместе с его предпочтениями
-            throw new NotImplementedException();
+            var customer = await _customers.GetByIdAsync(id);
+            if (customer == default)
+            {
+                return NotFound();
+            }
+
+            customer.FirstName = request.FirstName;
+            customer.LastName = request.LastName;
+            customer.Email = request.Email;
+            customer.Preferences?.Clear();
+
+            var preferences = await _preferences.GetAllAsync();
+            customer.Preferences = preferences
+                    .Where(p => request.PreferenceIds.Contains(p.Id))
+                    .Select(p => new CustomerPreference { CustomerId = customer.Id, PreferenceId = p.Id, Customer = customer, Preference = p })
+                    .ToList();
+
+            await _customers.UpdateAsync(null);
+            return Ok();
         }
-        
+
+        /// <summary>
+        /// Удаление клиента
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(Guid id)
         {

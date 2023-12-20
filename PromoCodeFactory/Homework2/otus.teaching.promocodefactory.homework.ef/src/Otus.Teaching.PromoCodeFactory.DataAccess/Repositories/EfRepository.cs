@@ -23,6 +23,11 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
             await _dataContext.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(T value)
+        {
+            await _dataContext.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(T value)
         {
              _dataContext.Set<T>().Remove(value);
@@ -37,11 +42,6 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
         public async Task<T> GetByIdAsync(Guid id)
         {
             return await _dataContext.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public Task UpdateAsync(T value)
-        {
-            throw new NotImplementedException();
         }
     }
 }
