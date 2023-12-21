@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         /// Получение списка клиентов
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<CustomerShortResponse>> GetCustomersAsync()
+        public async Task<ActionResult<IEnumerable<CustomerShortResponse>>> GetCustomersAsync()
         {
             var customers = await _customers.GetAllAsync();
             var response = customers.Select(customer => new CustomerShortResponse(customer));
